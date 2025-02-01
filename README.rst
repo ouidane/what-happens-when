@@ -25,19 +25,26 @@ Table of Contents
    :backlinks: none
    :local:
 
-The "g" key is pressed
-----------------------
-The following sections explain the physical keyboard actions
-and the OS interrupts. When you press the key "g" the browser receives the
-event and the auto-complete functions kick in.
-Depending on your browser's algorithm and if you are in
-private/incognito mode or not various suggestions will be presented
-to you in the dropdown below the URL bar. Most of these algorithms sort
-and prioritize results based on search history, bookmarks, cookies, and
-popular searches from the internet as a whole. As you are typing
-"google.com" many blocks of code run and the suggestions will be refined
-with each keypress. It may even suggest "google.com" before you finish typing
-it.
+The "g" key is pressed  
+----------------------  
+When the "g" key is pressed, the keyboard's hardware initiates a process similar to the "enter" key but tailored to the specific key:  
+
+1. **Keyboard Matrix Circuit**:  
+   - The keyboard uses a grid of circuits where each key corresponds to a unique row-column intersection. Pressing "g" closes the circuit for its specific row and column.  
+   - A microcontroller on the keyboard scans this matrix at high speed (~1000 times/sec) to detect closed circuits.  
+
+2. **Debouncing**:  
+   - Mechanical switches generate electrical noise (bouncing) when pressed. The keyboard's controller applies debouncing algorithms (e.g., time-based or logic-based filtering) to ensure a single clean signal.  
+
+3. **Scancode Generation**:  
+   - The controller maps the "g" key to a scancode (e.g., ``0x34`` for "g" in USB HID). This scancode is stored in a register and transmitted via USB or Bluetooth.  
+   - For USB keyboards, the scancode is sent as a HID report to the OS. The OS converts this into a virtual keycode (e.g., ``0x47`` for "g" in Windows) using locale-specific keymaps.  
+
+4. **OS and Browser Handling**:  
+   - The OS fires a keyboard interrupt (e.g., ``WM_KEYDOWN`` on Windows) and passes the decoded Unicode character "g" to the focused application (the browser).  
+   - The browser’s event loop receives the "g" keystroke, triggering the auto-complete algorithm.  
+
+This hardware-to-software chain ensures the keystroke is accurately detected and processed before the browser’s suggestions are generated. 
 
 The "enter" key bottoms out
 ---------------------------
